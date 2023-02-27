@@ -22,7 +22,7 @@ class WinLotto(private val winNumber: Lotto, private val bonus: LottoNumber) {
     private fun determineRank(lotto: Lotto): Rank {
         val countOfMatch = lotto.matchLottoNumberCount(winNumber)
         val isMatchBonus = lotto.isMatchBonus(bonus)
-        return Rank.determineAll(countOfMatch, isMatchBonus)
+        return Rank.determine(countOfMatch, isMatchBonus)
     }
 
     companion object {
