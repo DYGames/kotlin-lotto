@@ -6,7 +6,7 @@ import lotto.entity.LottoNumber
 import lotto.entity.PurchaseMoney
 import lotto.misc.tryAndRerun
 
-class InputView(val outputView: OutputView) {
+class InputView {
     private fun readInt(): Int {
         val input = readln()
         require(input.toIntOrNull() != null) { ERROR_MESSAGE_ONLY_NUMBER }
@@ -23,28 +23,28 @@ class InputView(val outputView: OutputView) {
 
     fun readWinNumber(message: String): Lotto {
         return tryAndRerun {
-            outputView.printMessage(message)
+            println(message)
             Lotto(readIntList())
         }
     }
 
     fun readBonus(message: String): LottoNumber {
         return tryAndRerun {
-            outputView.printMessage(message)
+            println(message)
             LottoNumber.from(readInt())
         }
     }
 
     fun readPurchaseMoney(message: String): PurchaseMoney {
         return tryAndRerun {
-            outputView.printMessage(message)
+            println(message)
             PurchaseMoney(readInt())
         }
     }
 
     fun readLottoManualCount(message: String): LottoCount {
         return tryAndRerun {
-            outputView.printMessage(message)
+            println(message)
             LottoCount(readInt())
         }
     }
