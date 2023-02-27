@@ -1,21 +1,15 @@
 package lotto.controller
 
-import lotto.entity.LottoCount
-import lotto.entity.PurchasedLottos
-import lotto.entity.WinLotto
-import lotto.entity.WinStatistics
+import lotto.entity.*
 import lotto.misc.tryAndRerun
-import lotto.model.InputLottoGenerator
-import lotto.model.LottoMachine
-import lotto.model.RandomLottoGenerator
 import lotto.view.InputView
 import lotto.view.LottoWinStatisticsFormatter
 import lotto.view.OutputView
 
 class WorldController {
     private val outputView = OutputView()
-    private val inputView = InputView(outputView)
-    private val manualLottoController = ManualLottoController(inputView)
+    private val inputView = InputView()
+    private val lottoController = LottoController(inputView)
 
     private fun initWinLotto(): WinLotto {
         return tryAndRerun {
@@ -31,7 +25,7 @@ class WorldController {
         val lottoAutoCount = purchaseMoney.calculateAutoLottoCount(lottoManualCount)
 
         outputView.printMessage(OutputView.MESSAGE_LOTTO_MANUAL)
-        val purchasedLottos = makePurchasedLottos(lottoManualCount, lottoAutoCount)
+        val purchasedLottos = lottoController.makePurchasedLottos(lottoManualCount, lottoAutoCount)
         outputView.gameResult(purchasedLottos, lottoManualCount, lottoAutoCount)
 
         val winStatistics = makeWinStatistics(purchasedLottos)
@@ -39,14 +33,6 @@ class WorldController {
 
         val profitRate = winStatistics.calculateProfitRate(purchaseMoney)
         outputView.profitRateResult(profitRate)
-    }
-
-    private fun makePurchasedLottos(lottoManualCount: LottoCount, lottoAutoCount: LottoCount): PurchasedLottos {
-        val manualLottoGenerator = InputLottoGenerator(manualLottoController)
-        val autoLottoGenerator = RandomLottoGenerator()
-        return LottoMachine(manualLottoGenerator, autoLottoGenerator).producePurchasedLottos(
-            lottoManualCount, lottoAutoCount
-        )
     }
 
     private fun makeWinStatistics(purchasedLottos: PurchasedLottos): WinStatistics {
