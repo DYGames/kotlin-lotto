@@ -1,6 +1,6 @@
 package lotto.entity
 
-class Lotto(val numbers: Set<LottoNumber>) {
+data class Lotto(val numbers: Set<LottoNumber>) {
     init {
         require(numbers.size == LOTTO_NUMBER_COUNT) { ERROR_MESSAGE_WIN_NUMBER_IS_SIX.format(numbers.size) }
     }
@@ -12,8 +12,6 @@ class Lotto(val numbers: Set<LottoNumber>) {
     fun isMatchBonus(bonus: LottoNumber): Boolean = numbers.contains(bonus)
 
     override fun toString(): String = "[${numbers.joinToString(", ") { it.value.toString() }}]"
-
-    override fun equals(other: Any?): Boolean = numbers == (other as Lotto).numbers
 
     companion object {
         const val ERROR_MESSAGE_WIN_NUMBER_IS_SIX = "로또 번호는 6개여야 합니다. 입력된 로또 번호 개수는 %d 입니다."
